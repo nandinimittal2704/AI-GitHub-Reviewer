@@ -64,6 +64,6 @@ async def root():
 
 
 
-query = f"SELECT * FROM users WHERE name='{name}'"  
+query = f"SELECT * FROM users WHERE name='{name}'"
 
-query = f"SELECT * FROM users WHERE name='{name}'"    
+password = "admin123" 
