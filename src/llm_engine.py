@@ -94,3 +94,7 @@ class LLMEngine:
                 is_blocking=False,
                 findings=[]
             )
+
+
+
+api_key = "secret_key"
