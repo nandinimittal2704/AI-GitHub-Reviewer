@@ -4,7 +4,7 @@ import json
 import logging
 import asyncio
 from dotenv import load_dotenv
-from google.genai import Client
+import google.generativeai as genai
 from src.models.review_schema import AIReviewResult
 
 logger = logging.getLogger("llm_engine")
@@ -20,23 +20,16 @@ class LLMEngine:
         if not self.api_key:
             logger.error("MY_NEW_GEMINI_KEY is missing in .env!")
         
-        # 2. Initialize the new google.genai Client
+        # 2. Configure the STABLE library
         if self.api_key:
-            self.client = Client(api_key=self.api_key)
-        else:
-            self.client = None
+            genai.configure(api_key=self.api_key)
+            
+        # 3. USE A MODEL FROM YOUR LIST
+        # We are using "gemini-2.5-flash" because your script proved you have it.
+        self.model = genai.GenerativeModel('gemini-2.5-flash')
 
     async def analyze_code(self, diff: str, persona: str, mode: str) -> AIReviewResult:
         logger.info(f"Gemini: Analyzing {len(diff)} chars (Persona: {persona})")
-
-        if not self.client:
-            logger.error("LLM Client not initialized - missing API key")
-            return AIReviewResult(
-                summary="Analysis Failed: LLM client not initialized",
-                security_score=0,
-                is_blocking=False,
-                findings=[]
-            )
 
         persona_map = {
             "security": "You are a Security Engineer. Focus on OWASP, secrets, and auth.",
@@ -75,14 +68,11 @@ class LLMEngine:
         """
 
         try:
-            # 3. Call Gemini using the new google.genai API (Async Wrapper)
+            # 3. Call Gemini (Async Wrapper)
             response = await asyncio.to_thread(
-                self.client.models.generate_content,
-                model="gemini-2.0-flash",
-                contents=full_prompt,
-                config={
-                    "response_mime_type": "application/json"
-                }
+                self.model.generate_content,
+                full_prompt,
+                generation_config={"response_mime_type": "application/json"}
             )
 
             # 4. Parse Response
