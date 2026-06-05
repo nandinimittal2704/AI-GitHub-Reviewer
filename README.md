@@ -64,7 +64,7 @@ graph LR
 ### 1. Clone the Repository
 
 ```bash
-git clone https://github.com/Somsubhra-Nandi/ai-pr-reviewer.git
+git clone https://github.com/nandinimittal2704/AI-GitHub-Reviewer.git
 cd ai-pr-reviewer
 ```
 
@@ -132,6 +132,4 @@ Distributed under the MIT License. See `LICENSE` for more information.
 
 ---
 
-<p align="center">
-Built  by <a href="https://github.com/Somsubhra-Nandi">Somsubhra Nandi</a>
-</p>
+
