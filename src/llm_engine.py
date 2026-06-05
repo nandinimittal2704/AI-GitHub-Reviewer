@@ -78,7 +78,7 @@ class LLMEngine:
             # 3. Call Gemini using the new google.genai API (Async Wrapper)
             response = await asyncio.to_thread(
                 self.client.models.generate_content,
-                model="gemini-2.0-flash",
+                model="gemini-2.5-flash",
                 contents=full_prompt,
                 config={
                     "response_mime_type": "application/json"
